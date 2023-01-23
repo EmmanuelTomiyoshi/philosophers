@@ -1,0 +1,19 @@
+[
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-Wall",
+            "-Werror",
+            "-Wextra",
+            "-g",
+            "-I",
+            "include/",
+            "-o",
+            "obj/main.o",
+            "src/main.c"
+        ],
+        "directory": "/home/etomiyos/42projetos/philo",
+        "file": "src/main.c"
+    }
+]
