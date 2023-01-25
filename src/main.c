@@ -6,11 +6,12 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/25 12:35:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:45:40 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
 
 //memset, printf, malloc, free, write,
 //usleep, gettiimeofday
@@ -53,8 +54,15 @@ int	create_threads(t_data **d)
 	{
 		if (pthread_create(&(*d)->th[i], NULL, routine, (void *)(*d)) != 0)
 			return (-1);
+		// printf("Thread %d has started\n", i);
+		i++;
+	}
+	i = 0;
+	while (i < (*d)->number_of_philos)
+	{
 		if (pthread_join((*d)->th[i], NULL) != 0)
 			return (-1);
+		// printf("Thread %d has finished\n", i);
 		i++;
 	}
 	pthread_mutex_destroy(&(*d)->mutex);
