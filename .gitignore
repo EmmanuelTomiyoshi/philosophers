@@ -53,4 +53,7 @@ dkms.conf
 
 # Others
 *.md
+*.idx
 *.json
+compile_commands.json
+.clangd

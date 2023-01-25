@@ -7,13 +7,68 @@
             "-Werror",
             "-Wextra",
             "-g",
+            "-pthread",
+            "-I",
+            "include/",
+            "-o",
+            "obj/utils.o",
+            "src/utils.c"
+        ],
+        "directory": "/home/etomiyos/42projetos/philosophers",
+        "file": "src/utils.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-Wall",
+            "-Werror",
+            "-Wextra",
+            "-g",
+            "-pthread",
+            "-I",
+            "include/",
+            "-o",
+            "obj/free.o",
+            "src/free.c"
+        ],
+        "directory": "/home/etomiyos/42projetos/philosophers",
+        "file": "src/free.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-Wall",
+            "-Werror",
+            "-Wextra",
+            "-g",
+            "-pthread",
             "-I",
             "include/",
             "-o",
             "obj/main.o",
             "src/main.c"
         ],
-        "directory": "/home/etomiyos/42projetos/philo",
+        "directory": "/home/etomiyos/42projetos/philosophers",
         "file": "src/main.c"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-Wall",
+            "-Werror",
+            "-Wextra",
+            "-g",
+            "-pthread",
+            "-I",
+            "include/",
+            "-o",
+            "obj/parse.o",
+            "src/parse.c"
+        ],
+        "directory": "/home/etomiyos/42projetos/philosophers",
+        "file": "src/parse.c"
     }
 ]

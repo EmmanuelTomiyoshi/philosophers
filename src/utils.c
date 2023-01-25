@@ -6,11 +6,22 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:49:26 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/23 20:46:11 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:04:53 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	*ft_calloc(size_t nelem, size_t elsize)
+{
+	void	*ptr;
+
+	ptr = malloc(nelem * elsize);
+	if (ptr == NULL)
+		return (NULL);
+	memset(ptr, '\0', (nelem * elsize));
+	return (ptr);
+}
 
 int	ft_isdigit(int c)
 {

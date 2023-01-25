@@ -5,9 +5,9 @@ INCDIR			=	include/
 BIN				=	bin/philo
 REQUIRED_DIRS	=	${OBJDIR} bin/
 CFLAGS			=	-Wall -Werror -Wextra
-CFLAGS			+=	-g -I ${INCDIR}
+CFLAGS			+=	-g -pthread -I ${INCDIR}
 CC				=	cc
-FILES			=	main.c utils.c parse.c
+FILES			=	main.c utils.c parse.c free.c
 SRC				=	${addprefix ${SRCDIR}, ${FILES}}
 OBJ				=	${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 
@@ -41,5 +41,8 @@ fclean: clean
 	rm -rf bin/
 
 re: fclean all
+
+val: all
+	valgrind --leak-check=full --show-leak-kinds=all ./philo 1 2 3 4
 
 .PHONY: re fclean clean all
