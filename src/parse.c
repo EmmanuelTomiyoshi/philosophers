@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/24 11:26:10 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/25 12:28:58 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	valid_number(char *s)
 		s++;
 	while (s && *s == '0')
 		s++;
-	if (ft_strlen(s) > 10 || s[ft_strlen(s) - 1] > '7')
+	if (ft_strlen(s) > 9)
 		return (-1);
 	while (s[i])
 	{
@@ -56,6 +56,8 @@ int	parse_arguments(int argc, char **argv, t_data **d)
 		i++;
 	}
 	init_data(argc, argv, d);
+	if ((*d)->number_of_philos > 200 || (*d)->number_of_philos == 0)
+		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 	return (0);
 }
 
