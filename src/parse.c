@@ -6,22 +6,22 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/25 12:28:58 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/27 11:33:13 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_data(int argc, char **argv, t_data **d)
+static void	init_data(int argc, char **argv, t_data *d)
 {
-	(*d)->number_of_philos = ft_atoi(argv[1]);
-	(*d)->time_to_die = ft_atoi(argv[2]);
-	(*d)->time_to_eat = ft_atoi(argv[3]);
-	(*d)->time_to_sleep = ft_atoi(argv[4]);
+	d->number_of_philos = ft_atoi(argv[1]);
+	d->time_to_die = ft_atoi(argv[2]);
+	d->time_to_eat = ft_atoi(argv[3]);
+	d->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		(*d)->times_each_philo_must_eat = ft_atoi(argv[5]);
+		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
-		(*d)->times_each_philo_must_eat = 0;
+		d->times_each_philo_must_eat = 0;
 }
 
 static int	valid_number(char *s)
@@ -44,7 +44,7 @@ static int	valid_number(char *s)
 	return (0);
 }
 
-int	parse_arguments(int argc, char **argv, t_data **d)
+int	parse_arguments(int argc, char **argv, t_data *d)
 {
 	int		i;
 
@@ -56,7 +56,7 @@ int	parse_arguments(int argc, char **argv, t_data **d)
 		i++;
 	}
 	init_data(argc, argv, d);
-	if ((*d)->number_of_philos > 200 || (*d)->number_of_philos == 0)
+	if (d->number_of_philos > 200 || d->number_of_philos == 0)
 		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/25 12:35:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/27 11:32:54 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 
 typedef struct s_philo
 {
+	short	id;
+	int		eat;
+	int		sleep;
+	int		think;
 }	t_philo;
 
 typedef struct s_data
@@ -41,8 +45,10 @@ typedef struct s_data
 	int				times_each_philo_must_eat;
 	pthread_t		*th;
 	pthread_mutex_t	mutex;
-	int				meatballs;
 	t_philo			**philos;
+	int		eat;
+	int		sleep;
+	int		think;
 }	t_data;
 
 size_t	ft_strlen(const char *str);
@@ -52,7 +58,7 @@ int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nelem, size_t elsize);
 
 int		check_arguments(int argc);
-int		parse_arguments(int argc, char **argv, t_data **d);
+int		parse_arguments(int argc, char **argv, t_data *d);
 void	free_data(t_data **d);
 
 #endif
