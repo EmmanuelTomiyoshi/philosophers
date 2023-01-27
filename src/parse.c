@@ -6,11 +6,28 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/27 11:33:13 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/27 12:25:36 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	init_philos(t_data *d)
+{
+	int	i;
+
+	d->philos = ft_calloc(d->number_of_philos, sizeof(t_philo));
+	d->forks = ft_calloc(d->number_of_philos, sizeof(pthread_mutex_t));
+	i = 0;
+	while (i < d->number_of_philos)
+	{
+		pthread_mutex_init(&d->forks[i], NULL);
+		d->philos->d = d;
+		i++;
+	}
+}
+
+//d->philos->d = d; está guardando a referencia
 
 static void	init_data(int argc, char **argv, t_data *d)
 {
@@ -22,6 +39,7 @@ static void	init_data(int argc, char **argv, t_data *d)
 		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
 		d->times_each_philo_must_eat = 0;
+	init_philos(d);
 }
 
 static int	valid_number(char *s)
