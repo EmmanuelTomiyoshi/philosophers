@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/27 12:26:14 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:06:17 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 # define PHILO_H
 
+#include <bits/types/struct_timeval.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -32,11 +33,14 @@ typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
-	int			eat;
-	int			sleep;
-	int			think;
-	pthread_t	tid;
-	t_data		*d;
+	int				id;
+	int				eat;
+	int				sleep;
+	int				think;
+	t_data			*d;
+	pthread_t		tid;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 }	t_philo;
 
 typedef struct s_data
@@ -46,7 +50,10 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_each_philo_must_eat;
+	struct timeval	start;
+	struct timeval	end;
 	t_philo			*philos;
+	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 }	t_data;
 

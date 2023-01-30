@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/27 12:25:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/01/30 10:57:38 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ void	init_philos(t_data *d)
 	d->forks = ft_calloc(d->number_of_philos, sizeof(pthread_mutex_t));
 	i = 0;
 	while (i < d->number_of_philos)
+		pthread_mutex_init(&d->forks[i++], NULL);
+	i = 0;
+	while (i < d->number_of_philos)
 	{
-		pthread_mutex_init(&d->forks[i], NULL);
-		d->philos->d = d;
+		d->philos[i].d = d;
+		d->philos[i].id = i + 1;
+		d->philos[i].left_fork = &d->forks[i];
+		d->philos[i].right_fork = &d->forks[(i + 1) % d->number_of_philos];
 		i++;
 	}
 }
-
-//d->philos->d = d; está guardando a referencia
 
 static void	init_data(int argc, char **argv, t_data *d)
 {
