@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/01 16:38:45 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:55:20 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,16 @@ void	print_msg(t_philo *philo, int id_msg)
 
 	pthread_mutex_lock(&philo->d->print_lock);
 	last_done = timestamp() - philo->d->start;
-	// if ((last_done - philo->last_meal) > philo->d->time_to_die)
-	// 	printf("%ld is bigger than %d\n", (last_done - philo->last_meal), philo->d->time_to_die);
 	if (id_msg == 0)
 	{
-		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_EAT);
+		// printf("ld: %ld lm: %ld resultado: %ld\n", last_done, philo->last_meal, last_done - philo->last_meal);
+		if (last_done - philo->last_meal > philo->d->time_to_die)
+		{
+			// printf("%ld is bigger than %d\n", last_done - philo->last_meal, philo->d->time_to_die);
+			// return ;
+		}	
 		philo->last_meal = last_done;
+		printf("\001\e[32m%ld %d %s\e[00m\002\n", philo->last_meal, philo->id, MSG_EAT);
 	}
 	if (id_msg == 1)
 		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_FORK);
