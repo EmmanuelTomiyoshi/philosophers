@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/30 10:57:38 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:30:42 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_philos(t_data *d)
 		d->philos[i].id = i + 1;
 		d->philos[i].left_fork = &d->forks[i];
 		d->philos[i].right_fork = &d->forks[(i + 1) % d->number_of_philos];
+		d->philos[i].last_meal = 0;
 		i++;
 	}
 }
@@ -38,10 +39,12 @@ static void	init_data(int argc, char **argv, t_data *d)
 	d->time_to_die = ft_atoi(argv[2]);
 	d->time_to_eat = ft_atoi(argv[3]);
 	d->time_to_sleep = ft_atoi(argv[4]);
+	d->start = timestamp();
 	if (argc == 6)
 		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
 		d->times_each_philo_must_eat = 0;
+	pthread_mutex_init(&d->print_lock, NULL);
 	init_philos(d);
 }
 

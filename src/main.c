@@ -6,11 +6,14 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/01/30 14:19:02 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:38:45 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
+#include <sys/select.h>
+#include <time.h>
 
 //memset, printf, malloc, free, write,
 //usleep, gettimeofday
@@ -25,23 +28,50 @@
 //pthread_mutex_lock,
 //pthread_mutex_unlock
 
+//milliseconds to microseconds
 void	eating(t_philo *philo)
 {
-	philo->eat = 25;
+	usleep(philo->d->time_to_eat * 1000);
 }
 
-// void	gettimestamp(void)
-// {
-// 	struct timeval tv;
-	
-// 	gettimeofday(&tv, NULL);
-// 	printf("Segundos: %ld\n", (long int)tv.tv_sec);
-// 	printf("Microsegundos: %ld\n", (long int)tv.tv_usec);
-// }
-
-float	time_diff(struct timeval *start, struct timeval *end)
+void	sleeping(t_philo *philo)
 {
-	return ((end->tv_sec - start->tv_sec) * 1e-6 + end->tv_usec - start->tv_usec);
+	usleep(philo->d->time_to_sleep * 1000);
+}
+
+void	thinking(t_philo *philo)
+{
+	(void)philo;
+}
+
+void	print_msg(t_philo *philo, int id_msg)
+{
+	t_ms	last_done;
+
+	pthread_mutex_lock(&philo->d->print_lock);
+	last_done = timestamp() - philo->d->start;
+	// if ((last_done - philo->last_meal) > philo->d->time_to_die)
+	// 	printf("%ld is bigger than %d\n", (last_done - philo->last_meal), philo->d->time_to_die);
+	if (id_msg == 0)
+	{
+		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_EAT);
+		philo->last_meal = last_done;
+	}
+	if (id_msg == 1)
+		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_FORK);
+	if (id_msg == 2)
+		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_SLEEP);
+	if (id_msg == 3)
+		printf("\001\e[32m%ld %d %s\e[00m\002\n", last_done, philo->id, MSG_THINK);
+	pthread_mutex_unlock(&philo->d->print_lock);
+}
+
+t_ms	timestamp(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 void	*routine(void *d)
@@ -49,10 +79,8 @@ void	*routine(void *d)
 	t_philo		*philo;
 
 	philo = ((t_philo *)d);
-	int j = 0;
 	while (1)
 	{
-		dprintf(2, "%d | num: %d\n", philo->id, philo->d->number_of_philos);
 		if (philo->id == philo->d->number_of_philos)
 		{
 			pthread_mutex_lock(philo->right_fork);
@@ -63,24 +91,24 @@ void	*routine(void *d)
 			pthread_mutex_lock(philo->left_fork);
 			pthread_mutex_lock(philo->right_fork);
 		}
+		print_msg(philo, 0);
 		eating(philo);
-		sleep(1);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		if (j == 1)
-			break ;
-		j++;
+		sleeping(philo);
+		thinking(philo);
+		// sleep(3);
 	}
 	return (NULL);
 }
-// pthread_mutex_lock(&data->mutex);
-// eating(d);
-// pthread_mutex_unlock(&data->mutex);
+
+//5			500		200 	200
+//num_philo morre 	come 	dorme
+
+//0ms ->
 
 //Funções de pegar e soltar os garfos.		FEITO
-//Implementar os ms usando gettimeofday.
-//Monitor: atualizar a var. que diz se alguém morreu + implementar 3 rotinas. Verificar a var.
-//pra ver se morreu
+//Monitor: atualizar a var. que diz se alguém morreu + implementar 3 rotinas. Verificar a var pra ver se morreu
 //Log (mensagens) gerenciado por mutexes
 //implementar 5 argumento (comer pelo menos X vez - must_eat)
 
@@ -91,13 +119,10 @@ int	create_threads(t_data *d)
 	i = 0;
 	while (i < d->number_of_philos)
 	{
-		gettimeofday(&d->start, NULL);
 		if (pthread_create(&d->philos[i].tid, NULL, routine,
 				(void *)&d->philos[i]) != 0)
 			return (-1);
 		// printf("Thread %d has started\n", i);
-		gettimeofday(&d->end, NULL);
-		dprintf(2, "time spent: %0.f sec\n", time_diff(&d->start, &d->end));
 		i++;
 	}
 	i = 0;
@@ -151,8 +176,6 @@ int	main(int argc, char **argv)
 //7				3
 //8				4
 //9				4
-
-
 
 // processo
 // thread1----------------------------------------
