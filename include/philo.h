@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/01 16:27:24 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:32:53 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_data
 	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t	lock_meal;
 }	t_data;
 
 size_t	ft_strlen(const char *str);
@@ -71,7 +72,10 @@ void	*ft_calloc(size_t nelem, size_t elsize);
 
 int		check_arguments(int argc);
 int		parse_arguments(int argc, char **argv, t_data *d);
-void	free_data(t_data *d);
+void	*routine(void *d);
+void	print_msg(t_philo *philo, int id_msg);
 t_ms	timestamp(void);
+void	free_data(t_data *d);
+void	*monitor(void *d);
 
 #endif

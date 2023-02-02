@@ -6,11 +6,12 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/01 16:30:42 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:25:17 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 void	init_philos(t_data *d)
 {
@@ -28,7 +29,7 @@ void	init_philos(t_data *d)
 		d->philos[i].id = i + 1;
 		d->philos[i].left_fork = &d->forks[i];
 		d->philos[i].right_fork = &d->forks[(i + 1) % d->number_of_philos];
-		d->philos[i].last_meal = 0;
+		d->philos[i].last_meal = d->start;
 		i++;
 	}
 }
@@ -45,6 +46,7 @@ static void	init_data(int argc, char **argv, t_data *d)
 	else
 		d->times_each_philo_must_eat = 0;
 	pthread_mutex_init(&d->print_lock, NULL);
+	pthread_mutex_init(&d->lock_meal, NULL);
 	init_philos(d);
 }
 
@@ -57,6 +59,8 @@ static int	valid_number(char *s)
 		s++;
 	while (s && *s == '0')
 		s++;
+	if (*s == '\0')
+		return (-1);
 	if (ft_strlen(s) > 9)
 		return (-1);
 	while (s[i])
