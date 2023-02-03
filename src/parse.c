@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/02 19:25:17 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/03 09:47:02 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_philos(t_data *d)
 		d->philos[i].left_fork = &d->forks[i];
 		d->philos[i].right_fork = &d->forks[(i + 1) % d->number_of_philos];
 		d->philos[i].last_meal = d->start;
+		d->philos[i].meal = 0;
 		i++;
 	}
 }

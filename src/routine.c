@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:39:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/02 19:51:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/03 10:11:27 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	eating(t_philo *philo)
 {
+	philo->meal++;
 	usleep(philo->d->time_to_eat * 1000);
 }
 
@@ -29,24 +30,33 @@ void	thinking(t_philo *philo)
 
 void	*monitor(void *d)
 {
-	int			i;
+	// int			i;
 	t_data		*data;
 
 	data = ((t_data *)d);
-	while (1)
-	{
-		i = 0;
-		while (i < data->number_of_philos)
-		{
-			if (timestamp() - data->philos[i].last_meal > data->philos->d->time_to_die)
-			{
-				printf("%ld\n", timestamp() - data->philos[i].last_meal);
-				// return ;
-			}
-			i++;
-		}
-		usleep(5000);
-	}
+	(void)data;
+	// while (1)
+	// {
+	// 	i = 0;
+	// 	while (i < data->number_of_philos)
+	// 	{
+	// 		if (data->philos[i].meal == data->times_each_philo_must_eat)
+	// 		{
+	// 			// printf("there you are\n");
+	// 		}
+	// 		i++;
+	// 	}
+	// 	// while (i < data->number_of_philos)
+	// 	// {
+	// 	// 	if (timestamp() - data->philos[i].last_meal > data->philos->d->time_to_die)
+	// 	// 	{
+	// 	// 		printf("|%ld|\n", timestamp() - data->philos[i].last_meal);
+	// 	// 		// return ;
+	// 	// 	}
+	// 	// 	i++;
+	// 	// }
+	// 	usleep(5000);
+	// }
 	return (NULL);
 }
 
@@ -93,6 +103,8 @@ void	*routine(void *d)
 		eating(philo);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
+		if (philo->meal == philo->d->times_each_philo_must_eat)
+			break ;
 		sleeping(philo);
 		thinking(philo);
 	}
