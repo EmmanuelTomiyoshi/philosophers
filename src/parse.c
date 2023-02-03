@@ -6,12 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/03 09:47:02 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/03 13:09:35 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 void	init_philos(t_data *d)
 {
@@ -37,6 +36,9 @@ void	init_philos(t_data *d)
 
 static void	init_data(int argc, char **argv, t_data *d)
 {
+	d->dinner_is_over.content = 0;
+	d->print.content = 0;
+	d->satisfied.content = 0;
 	d->number_of_philos = ft_atoi(argv[1]);
 	d->time_to_die = ft_atoi(argv[2]);
 	d->time_to_eat = ft_atoi(argv[3]);
@@ -46,8 +48,9 @@ static void	init_data(int argc, char **argv, t_data *d)
 		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
 		d->times_each_philo_must_eat = 0;
-	pthread_mutex_init(&d->print_lock, NULL);
-	pthread_mutex_init(&d->lock_meal, NULL);
+	pthread_mutex_init(&d->print.lock, NULL);
+	pthread_mutex_init(&d->satisfied.lock, NULL);
+	pthread_mutex_init(&d->dinner_is_over.lock, NULL);
 	init_philos(d);
 }
 

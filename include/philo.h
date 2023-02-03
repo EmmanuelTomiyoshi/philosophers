@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/03 09:46:07 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/03 13:06:47 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@
 typedef struct s_data	t_data;
 typedef long			t_ms;
 
+typedef struct	s_safe
+{
+	int				content;
+	pthread_mutex_t	lock;
+}	t_safe;
+
 typedef struct s_philo
 {
 	int				id;
@@ -57,12 +63,13 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				times_each_philo_must_eat;
+	t_safe			dinner_is_over;		//
+	t_safe			satisfied;			//
+	t_safe			print;			//
 	t_ms			start;
 	t_philo			*philos;
-	pthread_t		monitor;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	print_lock;
-	pthread_mutex_t	lock_meal;
+	pthread_t		monitor;			//
+	pthread_mutex_t	*forks;				//
 }	t_data;
 
 size_t	ft_strlen(const char *str);
