@@ -6,28 +6,28 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/03 13:09:35 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 13:40:13 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_philos(t_data *d)
+static void	init_philos(t_data *d)
 {
 	int	i;
 
-	d->philos = ft_calloc(d->number_of_philos, sizeof(t_philo));
-	d->forks = ft_calloc(d->number_of_philos, sizeof(pthread_mutex_t));
+	d->philos = ft_calloc(d->num_philos, sizeof(t_philo));
+	d->forks = ft_calloc(d->num_philos, sizeof(pthread_mutex_t));
 	i = 0;
-	while (i < d->number_of_philos)
+	while (i < d->num_philos)
 		pthread_mutex_init(&d->forks[i++], NULL);
 	i = 0;
-	while (i < d->number_of_philos)
+	while (i < d->num_philos)
 	{
 		d->philos[i].d = d;
 		d->philos[i].id = i + 1;
 		d->philos[i].left_fork = &d->forks[i];
-		d->philos[i].right_fork = &d->forks[(i + 1) % d->number_of_philos];
+		d->philos[i].right_fork = &d->forks[(i + 1) % d->num_philos];
 		d->philos[i].last_meal = d->start;
 		d->philos[i].meal = 0;
 		i++;
@@ -36,14 +36,14 @@ void	init_philos(t_data *d)
 
 static void	init_data(int argc, char **argv, t_data *d)
 {
-	d->dinner_is_over.content = 0;
 	d->print.content = 0;
 	d->satisfied.content = 0;
-	d->number_of_philos = ft_atoi(argv[1]);
+	d->dinner_is_over.content = 0;
+	d->start = timestamp();
+	d->num_philos = ft_atoi(argv[1]);
 	d->time_to_die = ft_atoi(argv[2]);
 	d->time_to_eat = ft_atoi(argv[3]);
 	d->time_to_sleep = ft_atoi(argv[4]);
-	d->start = timestamp();
 	if (argc == 6)
 		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
@@ -78,8 +78,11 @@ static int	valid_number(char *s)
 
 int	parse_arguments(int argc, char **argv, t_data *d)
 {
-	int		i;
+	int	num_philos;
+	int	i;
 
+	if (argc < 5 || argc > 6)
+		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 	i = 1;
 	while (argv[i])
 	{
@@ -87,15 +90,9 @@ int	parse_arguments(int argc, char **argv, t_data *d)
 			return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 		i++;
 	}
+	num_philos = ft_atoi(argv[1]);
+	if (num_philos > MAX_PHILOS || num_philos == 0)
+		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 	init_data(argc, argv, d);
-	if (d->number_of_philos > 200 || d->number_of_philos == 0)
-		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
-	return (0);
-}
-
-int	check_arguments(int argc)
-{
-	if (argc < 5 || argc > 6)
-		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
 	return (0);
 }
