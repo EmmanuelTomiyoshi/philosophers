@@ -6,13 +6,13 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 17:55:18 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:13:40 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	parse_arguments(int argc, char **argv, t_data *d)
+static int	parse_arguments(int argc, char **argv, t_data *d)
 {
 	int	num_philos;
 	int	i;
@@ -33,7 +33,7 @@ int	parse_arguments(int argc, char **argv, t_data *d)
 	return (0);
 }
 
-int	create_threads(t_data *d)
+static int	create_threads(t_data *d)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ int	create_threads(t_data *d)
 	return (0);
 }
 
-void	free_data(t_data *d)
+static void free_data(t_data *d)
 {
 	int	i;
 

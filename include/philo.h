@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 18:08:22 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:16:38 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,28 +83,30 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 }	t_data;
 
-size_t	ft_strlen(const char *str);
-void	ft_putendl_fd(char *s, int fd);
-int		ft_isdigit(int c);
-int		ft_atoi(const char *nptr);
-void	*ft_calloc(size_t nelem, size_t elsize);
-
-int		parse_arguments(int argc, char **argv, t_data *d);
-void	*routine(void *d);
-void	print_msg(t_philo *philo, int id_msg);
-t_ms	timestamp(void);
-void	free_data(t_data *d);
-void	*monitor(void *d);
+//locks.c
 int		get_safe_content(t_safe *s);
 int		add_safe_content(t_safe *s);
+void	is_dead(t_philo *philo);
 void	hold_forks(t_philo *philo);
+void	print_msg(t_philo *philo, int id_msg);
 
+//parse.c
+void	init_data(int argc, char **argv, t_data *d);
+int		valid_number(char *s);
+t_ms	timestamp(void);
+
+//routine.c
+int		eating(t_philo *philo);
 int		sleeping(t_philo *philo);
 int		thinking(t_philo *philo);
-int		eating(t_philo *philo);
+void	*routine(void *d);
+void	*monitor(void *d);
 
-void	is_dead(t_philo *philo);
-int		valid_number(char *s);
-void	init_data(int argc, char **argv, t_data *d);
+//utils.c
+void	*ft_calloc(size_t nelem, size_t elsize);
+int		ft_isdigit(int c);
+int		ft_atoi(const char *nptr);
+size_t	ft_strlen(const char *str);
+void	ft_putendl_fd(char *s, int fd);
 
 #endif
