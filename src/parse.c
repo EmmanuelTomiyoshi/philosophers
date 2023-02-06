@@ -6,11 +6,12 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 13:40:13 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 16:46:59 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
 static void	init_philos(t_data *d)
 {
@@ -30,6 +31,7 @@ static void	init_philos(t_data *d)
 		d->philos[i].right_fork = &d->forks[(i + 1) % d->num_philos];
 		d->philos[i].last_meal = d->start;
 		d->philos[i].meal = 0;
+		pthread_mutex_init(&d->philos[i].meal_lock, NULL);
 		i++;
 	}
 }

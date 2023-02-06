@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 14:39:23 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:45:31 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ enum e_states
 	FORK,
 	SLEEP,
 	THINK,
+	DIED,
 };
 
 # define STDIN 0
@@ -61,6 +62,7 @@ typedef struct s_philo
 	t_ms			last_meal;
 	t_data			*d;
 	pthread_t		tid;
+	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 }	t_philo;
@@ -99,5 +101,7 @@ int		add_safe_content(t_safe *s);
 int		sleeping(t_philo *philo);
 int		thinking(t_philo *philo);
 int		eating(t_philo *philo);
+
+void	is_dead(t_philo *philo);
 
 #endif

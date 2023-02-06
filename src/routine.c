@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:39:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 13:52:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:47:48 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_ms	timestamp(void)
 
 int	eating(t_philo *philo)
 {
-	if (philo->id == philo->d->num_philos) //mudar para % 2 == 0
+	is_dead(philo);
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
 		pthread_mutex_lock(philo->left_fork);
@@ -57,6 +58,7 @@ int	eating(t_philo *philo)
 
 int	sleeping(t_philo *philo)
 {
+	is_dead(philo);
 	print_msg(philo, SLEEP);
 	usleep(philo->d->time_to_sleep * 1000);
 	return (0);
@@ -64,6 +66,7 @@ int	sleeping(t_philo *philo)
 
 int	thinking(t_philo *philo)
 {
+	is_dead(philo);
 	print_msg(philo, THINK);
 	return (0);
 }
@@ -73,6 +76,11 @@ void	*routine(void *d)
 	t_philo		*philo;
 
 	philo = ((t_philo *)d);
+	if (philo->d->num_philos == 1)
+	{
+		print_msg(philo, FORK);
+		return (NULL);
+	}
 	while (1)
 	{
 		if (eating(philo) == 1)
@@ -82,6 +90,5 @@ void	*routine(void *d)
 		if (thinking(philo) == 1)
 			break ;
 	}
-	// printf("%d finished execution\n", philo->id);
 	return (NULL);
 }

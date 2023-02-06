@@ -6,12 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 14:39:26 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:24:38 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 int	create_threads(t_data *d)
 {
@@ -55,8 +54,6 @@ int	main(int argc, char **argv)
 	free_data(d);
 	return (EXIT_SUCCESS);
 }
-
-//1 2 3 4 5 6 7 8
 
 // index		left	right
 // 1 		=	2		8
