@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 18:50:19 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 17:44:34 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:08:15 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,18 @@ void	is_dead(t_philo *philo)
 		pthread_mutex_unlock(&philo->meal_lock);
 }
 
-void	*monitor(void *d)
+void	hold_forks(t_philo *philo)
 {
-	int		i;
-	t_data	*data;
-
-	data = ((t_data *)d);
-	while (get_safe_content(&data->dinner_is_over) == 0)
+	if (philo->id % 2 == 0)
 	{
-		i = 0;
-		while (i < data->num_philos)
-		{
-			is_dead(&data->philos[i]);
-			i++;
-		}
-		usleep(5000);
+		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork);
 	}
-	return (NULL);
+	else
+	{
+		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork);
+	}
 }
 
 void	print_msg(t_philo *philo, int id_msg)

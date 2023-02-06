@@ -6,11 +6,32 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 15:24:38 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:55:18 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	parse_arguments(int argc, char **argv, t_data *d)
+{
+	int	num_philos;
+	int	i;
+
+	if (argc < 5 || argc > 6)
+		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
+	i = 1;
+	while (argv[i])
+	{
+		if (valid_number(argv[i]) == -1)
+			return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
+		i++;
+	}
+	num_philos = ft_atoi(argv[1]);
+	if (num_philos > MAX_PHILOS || num_philos == 0)
+		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
+	init_data(argc, argv, d);
+	return (0);
+}
 
 int	create_threads(t_data *d)
 {
@@ -36,6 +57,24 @@ int	create_threads(t_data *d)
 	return (0);
 }
 
+void	free_data(t_data *d)
+{
+	int	i;
+
+	i = 0;
+	while (i < d->num_philos)
+	{
+		pthread_mutex_destroy(&d->forks[i]);
+		pthread_mutex_destroy(&d->philos[i++].meal_lock);
+	}
+	pthread_mutex_destroy(&d->print.lock);
+	pthread_mutex_destroy(&d->satisfied.lock);
+	pthread_mutex_destroy(&d->dinner_is_over.lock);
+	free(d->forks);
+	free(d->philos);
+	free(d);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	*d;
@@ -54,26 +93,3 @@ int	main(int argc, char **argv)
 	free_data(d);
 	return (EXIT_SUCCESS);
 }
-
-// index		left	right
-// 1 		=	2		8
-// 2 		=	3		1
-// 3 		=	4		2
-// 4 		=	5		3
-// 5 		=	6		4
-// 6 		=	7		5
-// 7 		=	8		6
-// 8 		=	1		7
-
-//garfos, mensagens na tela e fim da simulação
-
-//NUM_PHILO		POR_VEZ
-//1				0
-//2				1			N / 2
-//3				1			N / 2
-//4				2
-//5				2
-//6				3
-//7				3
-//8				4
-//9				4

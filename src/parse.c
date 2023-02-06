@@ -6,12 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 16:46:59 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:04:33 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
 
 static void	init_philos(t_data *d)
 {
@@ -36,7 +35,7 @@ static void	init_philos(t_data *d)
 	}
 }
 
-static void	init_data(int argc, char **argv, t_data *d)
+void	init_data(int argc, char **argv, t_data *d)
 {
 	d->print.content = 0;
 	d->satisfied.content = 0;
@@ -56,7 +55,7 @@ static void	init_data(int argc, char **argv, t_data *d)
 	init_philos(d);
 }
 
-static int	valid_number(char *s)
+int	valid_number(char *s)
 {
 	int		i;
 
@@ -78,23 +77,10 @@ static int	valid_number(char *s)
 	return (0);
 }
 
-int	parse_arguments(int argc, char **argv, t_data *d)
+t_ms	timestamp(void)
 {
-	int	num_philos;
-	int	i;
+	struct timeval	tv;
 
-	if (argc < 5 || argc > 6)
-		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
-	i = 1;
-	while (argv[i])
-	{
-		if (valid_number(argv[i]) == -1)
-			return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
-		i++;
-	}
-	num_philos = ft_atoi(argv[1]);
-	if (num_philos > MAX_PHILOS || num_philos == 0)
-		return (ft_putendl_fd(MSG_INVALID_ARGS, STDERR), -1);
-	init_data(argc, argv, d);
-	return (0);
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

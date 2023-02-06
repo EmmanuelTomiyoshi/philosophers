@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 17:45:31 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:08:22 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,14 @@ void	free_data(t_data *d);
 void	*monitor(void *d);
 int		get_safe_content(t_safe *s);
 int		add_safe_content(t_safe *s);
+void	hold_forks(t_philo *philo);
 
 int		sleeping(t_philo *philo);
 int		thinking(t_philo *philo);
 int		eating(t_philo *philo);
 
 void	is_dead(t_philo *philo);
+int		valid_number(char *s);
+void	init_data(int argc, char **argv, t_data *d);
 
 #endif

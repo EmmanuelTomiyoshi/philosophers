@@ -6,33 +6,16 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:39:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 17:47:48 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:08:08 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_ms	timestamp(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
 int	eating(t_philo *philo)
 {
 	is_dead(philo);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->right_fork);
-		pthread_mutex_lock(philo->left_fork);
-	}
-	else
-	{
-		pthread_mutex_lock(philo->left_fork);
-		pthread_mutex_lock(philo->right_fork);
-	}
+	hold_forks(philo);
 	print_msg(philo, FORK);
 	print_msg(philo, FORK);
 	print_msg(philo, EAT);
@@ -89,6 +72,25 @@ void	*routine(void *d)
 			break ;
 		if (thinking(philo) == 1)
 			break ;
+	}
+	return (NULL);
+}
+
+void	*monitor(void *d)
+{
+	int		i;
+	t_data	*data;
+
+	data = ((t_data *)d);
+	while (get_safe_content(&data->dinner_is_over) == 0)
+	{
+		i = 0;
+		while (i < data->num_philos)
+		{
+			is_dead(&data->philos[i]);
+			i++;
+		}
+		usleep(5000);
 	}
 	return (NULL);
 }
