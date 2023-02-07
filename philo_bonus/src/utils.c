@@ -6,11 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:49:26 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/04 18:48:50 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:38:11 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../include/philo.h"
 
 void	*ft_calloc(size_t nelem, size_t elsize)
 {

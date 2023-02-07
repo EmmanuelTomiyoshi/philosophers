@@ -6,11 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 18:50:19 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 11:57:15 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:37:29 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../include/philo.h"
 
 int	get_safe_content(t_safe *s)
 {

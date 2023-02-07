@@ -6,11 +6,11 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 18:39:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 11:58:03 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:38:04 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../include/philo.h"
 
 int	eating(t_philo *philo)
 {
