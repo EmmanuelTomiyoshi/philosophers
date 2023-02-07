@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:25:18 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 18:13:40 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 12:06:48 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	create_threads(t_data *d)
 	return (0);
 }
 
-static void free_data(t_data *d)
+static void	free_data(t_data *d)
 {
 	int	i;
 

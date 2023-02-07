@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 18:16:38 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:57:24 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_data
 //locks.c
 int		get_safe_content(t_safe *s);
 int		add_safe_content(t_safe *s);
-void	is_dead(t_philo *philo);
+int		is_dead(t_philo *philo);
 void	hold_forks(t_philo *philo);
 void	print_msg(t_philo *philo, int id_msg);
 

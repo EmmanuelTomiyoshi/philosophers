@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 18:50:19 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/06 18:08:15 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:57:15 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	add_safe_content(t_safe *s)
 	return (content);
 }
 
-void	is_dead(t_philo *philo)
+int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_lock);
 	if (timestamp() - philo->last_meal > philo->d->time_to_die)
@@ -41,9 +41,11 @@ void	is_dead(t_philo *philo)
 		pthread_mutex_unlock(&philo->meal_lock);
 		print_msg(philo, DIED);
 		add_safe_content(&philo->d->dinner_is_over);
+		return (1);
 	}
 	else
 		pthread_mutex_unlock(&philo->meal_lock);
+	return (0);
 }
 
 void	hold_forks(t_philo *philo)
