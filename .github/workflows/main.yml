@@ -14,4 +14,4 @@ jobs:
     - name: make
       run: make -C philo
     - name: make bonus
-      run: make -C philo_bonus
+      run: make -C philo_bonus && ./philo_bonus 5 500 200 200

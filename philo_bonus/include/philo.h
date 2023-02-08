@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 12:20:12 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/08 14:07:36 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <pthread.h>
 # include <sys/wait.h>
 # include <sys/time.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <semaphore.h>
+
 
 enum e_states
 {
@@ -81,6 +85,7 @@ typedef struct s_data
 	t_philo			*philos;
 	pthread_t		monitor;
 	pthread_mutex_t	*forks;
+	sem_t			*sem;
 }	t_data;
 
 //locks.c
