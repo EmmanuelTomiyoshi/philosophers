@@ -13,3 +13,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: make
       run: make -C philo
+    - name: make bonus
+      run: make -C philo_bonus
