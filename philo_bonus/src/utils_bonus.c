@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:49:26 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 13:38:11 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/08 21:42:07 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "philo_bonus.h"
 
 void	*ft_calloc(size_t nelem, size_t elsize)
 {
@@ -69,10 +69,15 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_putendl_fd(char *s, int fd)
+void	print_error(char *msg)
 {
-	const char	nl = '\n';
-
-	write(fd, s, ft_strlen(s));
-	write(fd, &nl, 1);
+	if (!msg)
+		return ;
+	printf("%s\nusage: %s %s %s %s [%s]\n",
+		msg,
+		"number_of_philosophers",
+		"time_to_die",
+		"time_to_eat",
+		"time_to_sleep",
+		"number_of_times_each_philosopher_must_eat");
 }

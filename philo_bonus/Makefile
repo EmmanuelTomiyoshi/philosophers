@@ -7,7 +7,12 @@ REQUIRED_DIRS	=	${OBJDIR} ${OBJDIR_B} bin/
 CFLAGS			=	-Wall -Werror -Wextra
 CFLAGS			+=	-g -pthread -I ${INCDIR}
 CC				=	cc
-FILES			=	main.c utils.c parse.c routine.c locks.c
+FILES			=	init_bonus.c	\
+					main_bonus.c	\
+					utils_bonus.c	\
+					parse_bonus.c	\
+					routine_bonus.c	\
+					locks_bonus.c
 SRC				=	${addprefix ${SRCDIR}, ${FILES}}
 OBJ				=	${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 
@@ -43,6 +48,6 @@ fclean: clean
 re: fclean all
 
 val: all
-	valgrind --leak-check=full --show-leak-kinds=all ./philo_bonus 1 2 3 4
+	valgrind --leak-check=full --show-leak-kinds=all ./philo_bonus 5 500 200 200
 
 .PHONY: re fclean clean all

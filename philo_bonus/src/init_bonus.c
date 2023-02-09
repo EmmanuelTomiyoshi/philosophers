@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 20:38:06 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 13:38:02 by etomiyos         ###   ########.fr       */
+/*   Created: 2023/02/08 22:01:26 by etomiyos          #+#    #+#             */
+/*   Updated: 2023/02/08 22:24:19 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "philo_bonus.h"
+#include <fcntl.h>
+#include <semaphore.h>
 
 static void	init_philos(t_data *d)
 {
@@ -19,6 +21,7 @@ static void	init_philos(t_data *d)
 	d->philos = ft_calloc(d->num_philos, sizeof(t_philo));
 	d->forks = ft_calloc(d->num_philos, sizeof(pthread_mutex_t));
 	i = 0;
+	// d->sforks = sem_open("/forks", O_CREAT, 06444, d->num_philos);
 	while (i < d->num_philos)
 		pthread_mutex_init(&d->forks[i++], NULL);
 	i = 0;
@@ -35,8 +38,29 @@ static void	init_philos(t_data *d)
 	}
 }
 
+sem_t	*create_semaphore(const char *name, unsigned int value)
+{
+	sem_t	*sem;
+	int		mode;
+
+	sem_unlink(name);
+	mode = S_IRUSR | S_IRGRP | S_IROTH | S_IWUSR;
+	sem = sem_open(name, O_CREAT, mode, value);
+	if (sem == SEM_FAILED)
+	{
+		printf("philo: failed to create a semaphore\n");
+		exit(EXIT_FAILURE);
+	}
+	return (sem);
+}
+
 void	init_data(int argc, char **argv, t_data *d)
 {
+	memset(d, 0, sizeof(t_data));
+	// sem_unlink("/lock_print");
+	// sem_unlink("forks");
+	d->forks = NULL;
+	d->philos = NULL;
 	d->print.content = 0;
 	d->satisfied.content = 0;
 	d->dinner_is_over.content = 0;
@@ -49,38 +73,9 @@ void	init_data(int argc, char **argv, t_data *d)
 		d->times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
 		d->times_each_philo_must_eat = 0;
+	
 	pthread_mutex_init(&d->print.lock, NULL);
 	pthread_mutex_init(&d->satisfied.lock, NULL);
 	pthread_mutex_init(&d->dinner_is_over.lock, NULL);
 	init_philos(d);
-}
-
-int	valid_number(char *s)
-{
-	int		i;
-
-	i = 0;
-	if (s[0] == '+' && ft_strlen(s) > 1)
-		s++;
-	while (s && *s == '0')
-		s++;
-	if (*s == '\0')
-		return (-1);
-	if (ft_strlen(s) > 9)
-		return (-1);
-	while (s[i])
-	{
-		if (!ft_isdigit(s[i]))
-			return (-1);
-		i++;
-	}
-	return (0);
-}
-
-t_ms	timestamp(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

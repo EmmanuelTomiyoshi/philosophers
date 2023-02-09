@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/08 14:07:36 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/08 22:17:45 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # include <fcntl.h>
 # include <semaphore.h>
 
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}	t_bool;
 
 enum e_states
 {
@@ -32,7 +37,7 @@ enum e_states
 	FORK,
 	SLEEP,
 	THINK,
-	DIED,
+	DIED
 };
 
 # define STDIN 0
@@ -45,7 +50,9 @@ enum e_states
 # define MSG_SLEEP "is sleeping"
 # define MSG_THINK "is thinking"
 # define MSG_DIED "died"
-# define MSG_INVALID_ARGS "philo: invalid arguments"
+# define MSG_INVALID_ARGS "philo: arguments must be positive integers"
+# define MSG_INVALID_NB_ARGS "philo: invalid number of arguments"
+# define MSG_INVALID_PHILO_NB "philo: number of philosophers is high or low"
 
 typedef struct s_data	t_data;
 typedef long			t_ms;
@@ -86,6 +93,8 @@ typedef struct s_data
 	pthread_t		monitor;
 	pthread_mutex_t	*forks;
 	sem_t			*sem;
+	sem_t			*sforks;
+	sem_t			*sprint;
 }	t_data;
 
 //locks.c
@@ -97,8 +106,9 @@ void	print_msg(t_philo *philo, int id_msg);
 
 //parse.c
 void	init_data(int argc, char **argv, t_data *d);
-int		valid_number(char *s);
+t_bool	valid_number(char *s);
 t_ms	timestamp(void);
+t_bool	parse_arguments(int argc, char **argv);
 
 //routine.c
 int		eating(t_philo *philo);
@@ -112,6 +122,6 @@ void	*ft_calloc(size_t nelem, size_t elsize);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *nptr);
 size_t	ft_strlen(const char *str);
-void	ft_putendl_fd(char *s, int fd);
+void	print_error(char *msg);
 
 #endif
