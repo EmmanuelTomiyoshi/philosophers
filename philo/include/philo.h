@@ -6,7 +6,7 @@
 /*   By: etomiyos <etomiyos@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:24:48 by etomiyos          #+#    #+#             */
-/*   Updated: 2023/02/07 11:57:24 by etomiyos         ###   ########.fr       */
+/*   Updated: 2023/02/09 14:48:16 by etomiyos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include <sys/wait.h>
 # include <sys/time.h>
 
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}	t_bool;
+
 enum e_states
 {
 	EAT,
@@ -31,9 +37,8 @@ enum e_states
 	DIED,
 };
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
+# define USAGE TRUE
+# define NO_USAGE FALSE
 # define MAX_INT 2147483647
 # define MAX_PHILOS 200
 # define MSG_EAT "is eating"
@@ -41,7 +46,10 @@ enum e_states
 # define MSG_SLEEP "is sleeping"
 # define MSG_THINK "is thinking"
 # define MSG_DIED "died"
-# define MSG_INVALID_ARGS "philo: invalid arguments"
+# define MSG_ERROR_ALLOC "there was an error while allocating memory\n"
+# define MSG_INVALID_ARGS "philo: arguments must be positive integers"
+# define MSG_INVALID_NB_ARGS "philo: invalid number of arguments"
+# define MSG_INVALID_PHILO_NB "philo: number of philosophers is high or low"
 
 typedef struct s_data	t_data;
 typedef long			t_ms;
@@ -83,17 +91,23 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 }	t_data;
 
+//init.c
+t_bool	init_data(int argc, char **argv, t_data *d);
+
 //locks.c
 int		get_safe_content(t_safe *s);
 int		add_safe_content(t_safe *s);
 int		is_dead(t_philo *philo);
 void	hold_forks(t_philo *philo);
-void	print_msg(t_philo *philo, int id_msg);
+t_ms	timestamp(void);
 
 //parse.c
-void	init_data(int argc, char **argv, t_data *d);
-int		valid_number(char *s);
-t_ms	timestamp(void);
+int		parse_arguments(int argc, char **argv);
+int		ft_atoi(const char *nptr);
+
+//print.c
+void	print_msg(t_philo *philo, int id_msg);
+void	print_error(char *msg, t_bool usage);
 
 //routine.c
 int		eating(t_philo *philo);
@@ -101,12 +115,5 @@ int		sleeping(t_philo *philo);
 int		thinking(t_philo *philo);
 void	*routine(void *d);
 void	*monitor(void *d);
-
-//utils.c
-void	*ft_calloc(size_t nelem, size_t elsize);
-int		ft_isdigit(int c);
-int		ft_atoi(const char *nptr);
-size_t	ft_strlen(const char *str);
-void	ft_putendl_fd(char *s, int fd);
 
 #endif

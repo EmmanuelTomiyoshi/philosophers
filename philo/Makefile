@@ -7,7 +7,7 @@ REQUIRED_DIRS	=	${OBJDIR} ${OBJDIR_B} bin/
 CFLAGS			=	-Wall -Werror -Wextra
 CFLAGS			+=	-g -pthread -I ${INCDIR}
 CC				=	cc
-FILES			=	main.c utils.c parse.c routine.c locks.c
+FILES			=	init.c locks.c main.c parse.c print.c routine.c
 SRC				=	${addprefix ${SRCDIR}, ${FILES}}
 OBJ				=	${addprefix ${OBJDIR}, ${FILES:.c=.o}}
 
